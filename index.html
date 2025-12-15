@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="theme-color" content="#1a1a2e">
+    <meta name="description" content="Ma bibliothèque personnelle 2026 - 52 livres pour une année de lectures">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Ma Bibliothèque 2026</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 Ma Bibliothèque 2026</h1>
+            <p class="subtitle">Une année de lectures enrichissantes</p>
+            <div class="stats">
+                <div class="stat-card">
+                    <span class="stat-number" id="totalBooks">52</span>
+                    <span class="stat-label">Livres</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="booksRead">0</span>
+                    <span class="stat-label">Lus</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="currentBook">0</span>
+                    <span class="stat-label">En cours</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="booksRemaining">52</span>
+                    <span class="stat-label">À lire</span>
+                </div>
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+                <span class="progress-text" id="progressText">0%</span>
+            </div>
+        </header>
+
+        <div class="filters">
+            <button class="filter-btn active" data-filter="all">Tous</button>
+            <button class="filter-btn" data-filter="read">Lus</button>
+            <button class="filter-btn" data-filter="current">En cours</button>
+            <button class="filter-btn" data-filter="upcoming">À lire</button>
+            <button class="filter-btn favorite-filter" data-filter="favorites">♥ Favoris</button>
+        </div>
+
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="🔍 Rechercher un livre ou un auteur...">
+        </div>
+
+        <main class="books-grid" id="booksGrid">
+            <!-- Les livres seront générés par JavaScript -->
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <span class="footer-logo">📚</span>
+                <span class="footer-title">Ma Bibliothèque 2026</span>
+            </div>
+            <div class="footer-stats">
+                <span id="footerTotal">52 livres</span>
+                <span class="footer-separator">•</span>
+                <span id="footerProgress">0% complété</span>
+            </div>
+            <div class="footer-quote">
+                <p>"Un lecteur vit mille vies avant de mourir. Celui qui ne lit pas n'en vit qu'une."</p>
+                <cite>— George R.R. Martin</cite>
+            </div>
+            <div class="footer-bottom">
+                <p>Fait avec ♥ pour une année de découvertes littéraires</p>
+                <p class="footer-year">© 2026</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal pour les détails du livre -->
+    <div class="modal" id="reviewModal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeModal">&times;</span>
+            
+            <div class="modal-header">
+                <div class="modal-cover">
+                    <img id="modalCover" src="" alt="Couverture">
+                </div>
+                <div class="modal-info">
+                    <span class="modal-status" id="modalStatus"></span>
+                    <h2 id="modalTitle"></h2>
+                    <p class="modal-author" id="modalAuthor"></p>
+                    <div class="modal-meta">
+                        <div class="meta-item">
+                            <span class="meta-icon">📅</span>
+                            <span id="modalDates"></span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-icon">📖</span>
+                            <span id="modalWeek"></span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-icon">🔢</span>
+                            <span id="modalIsbn"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-tabs">
+                <button class="tab-btn active" data-tab="review">✍️ Avis</button>
+                <button class="tab-btn" data-tab="notes">📝 Notes</button>
+                <button class="tab-btn" data-tab="quotes">💬 Citations</button>
+            </div>
+            
+            <div class="tab-content active" id="tab-review">
+                <div class="rating-container">
+                    <label>Ma note :</label>
+                    <div class="stars" id="starsContainer">
+                        <span class="star" data-rating="1">★</span>
+                        <span class="star" data-rating="2">★</span>
+                        <span class="star" data-rating="3">★</span>
+                        <span class="star" data-rating="4">★</span>
+                        <span class="star" data-rating="5">★</span>
+                    </div>
+                    <span class="rating-text" id="ratingText">Non noté</span>
+                </div>
+                <textarea id="reviewText" placeholder="Écrivez votre avis sur ce livre..."></textarea>
+            </div>
+            
+            <div class="tab-content" id="tab-notes">
+                <textarea id="notesText" placeholder="Vos notes personnelles, réflexions, idées..."></textarea>
+            </div>
+            
+            <div class="tab-content" id="tab-quotes">
+                <div class="quotes-list" id="quotesList"></div>
+                <div class="add-quote">
+                    <textarea id="newQuote" placeholder="Ajoutez une citation mémorable..."></textarea>
+                    <input type="text" id="quotePage" placeholder="Page (optionnel)">
+                    <button class="add-quote-btn" id="addQuoteBtn">+ Ajouter</button>
+                </div>
+            </div>
+            
+            <div class="modal-actions">
+                <button class="action-btn read-action" id="toggleReadBtn">
+                    <span class="action-icon">✓</span>
+                    <span class="action-text">Marquer comme lu</span>
+                </button>
+                <button class="action-btn favorite-action" id="toggleFavoriteBtn">
+                    <span class="action-icon">♥</span>
+                    <span class="action-text">Favori</span>
+                </button>
+                <button class="action-btn search-action" id="searchOnlineBtn">
+                    <span class="action-icon">🔍</span>
+                    <span class="action-text">Rechercher</span>
+                </button>
+            </div>
+            
+            <button class="save-btn" id="saveReview">💾 Sauvegarder</button>
+        </div>
+    </div>
+
+    <!-- Overlay pour voir la couverture en grand -->
+    <div class="cover-fullscreen" id="coverFullscreen">
+        <img id="fullscreenCoverImg" src="" alt="Couverture en grand">
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
